@@ -1,3 +1,45 @@
+
+
+---
+
+![img](https://img.nga.178.com/attachments/mon_202006/17/-64xyuQ5-bxxpZaT3cSsg-he.jpg)
+
+### 该项目是 Ahri 对 HoshinoBot 做的一些定制，增加了一些小功能，但是核心功能依赖外部 API 所以不保证可用性
+
+
+
+### 设置默认查询公会
+
+
+
+![](https://xuyanxin-blog-bucket.oss-cn-beijing.aliyuncs.com/blog/20200702145253.png)
+
+![](https://xuyanxin-blog-bucket.oss-cn-beijing.aliyuncs.com/blog/20200702145632.png)
+
+### 查询当前公会排名
+
+![](https://xuyanxin-blog-bucket.oss-cn-beijing.aliyuncs.com/blog/20200702145217.png)
+
+
+
+### 查询当前档位
+
+![image-20200702145328746](/Users/xuyanxin/Library/Application Support/typora-user-images/image-20200702145328746.png)
+
+
+
+### 查询会战作业
+
+![image-20200702145404534](/Users/xuyanxin/Library/Application Support/typora-user-images/image-20200702145404534.png)
+
+
+
+### 报刀说明书
+
+![image-20200702145445231](/Users/xuyanxin/Library/Application Support/typora-user-images/image-20200702145445231.png)
+
+
+
 # HoshinoBot
 
 A qqbot for Princess Connect Re:Dive (and other usage :)
