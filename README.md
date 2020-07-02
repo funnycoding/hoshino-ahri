@@ -2,9 +2,20 @@
 
 ---
 
-![img](https://img.nga.178.com/attachments/mon_202006/17/-64xyuQ5-bxxpZaT3cSsg-he.jpg)
+![img](https://xuyanxin-blog-bucket.oss-cn-beijing.aliyuncs.com/blog/20200702145724.jpg)
 
 ### 该项目是 Ahri 对 HoshinoBot 做的一些定制，增加了一些小功能，但是核心功能依赖外部 API 所以不保证可用性
+
+```markdown
+※※ 以下为 Ahri 新增加的功能，核心功能依赖外部查询 API 如果无法使用则可能是外部服务出错
+
+[设置默认查询公会] 设置要查询分数的默认公会
+[查询排名] 查询默认公会当前的分数
+[查询排名 要查询的公会(空格不可省略)] 查询指定公会当前分数，当前周目情况
+[hzzy] 输出 /hosine_bot/HoshinoBot/hzzy.txt 文件中的内容，其中一般包含当前会战作业，需自己手动添加后输出
+[bd] 输出 /hosine_bot/HoshinoBot/bd.txt 文件中的内容，由于我使用 yobot 进行报刀，所以其中输入的是 yobot 的使用手册
+[查询档位]  查询当前档位分数线
+```
 
 
 
@@ -24,19 +35,19 @@
 
 ### 查询当前档位
 
-![image-20200702145328746](/Users/xuyanxin/Library/Application Support/typora-user-images/image-20200702145328746.png)
+![image-20200702145328746](https://xuyanxin-blog-bucket.oss-cn-beijing.aliyuncs.com/blog/20200702145733.png)
 
 
 
 ### 查询会战作业
 
-![image-20200702145404534](/Users/xuyanxin/Library/Application Support/typora-user-images/image-20200702145404534.png)
+![image-20200702145404534](https://xuyanxin-blog-bucket.oss-cn-beijing.aliyuncs.com/blog/20200702145739.png)
 
 
 
 ### 报刀说明书
 
-![image-20200702145445231](/Users/xuyanxin/Library/Application Support/typora-user-images/image-20200702145445231.png)
+![image-20200702145445231](https://xuyanxin-blog-bucket.oss-cn-beijing.aliyuncs.com/blog/20200702145743.png)
 
 
 
