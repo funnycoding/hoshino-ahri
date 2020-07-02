@@ -11,16 +11,12 @@
 
 """
 
-import re
-from itertools import zip_longest
-from nonebot.message import escape
+
 from hoshino import Service, CommandSession
 # request
 import requests
 import json
-from io import StringIO
-import time
-from apscheduler.schedulers.blocking import BlockingScheduler
+
 
 sv = Service('pcr-ahri-plugin')
 
@@ -72,7 +68,7 @@ async def set_default_clan(session: CommandSession):
     session.finish("设置默认查询公会成功，当前默认查询公会：" + dict['defaultClanName'])
   else:
     session.finish("当前默认查询公会：" + dict[
-      'defaultClanName'] + "\n设置默认查询公会请使用命令 设置默认查询公会 要查询的公会名称（空格不可省略）\n 例：" + "设置默认查询公会 K.A")
+      'defaultClanName'] + "\n设置默认查询公会请使用命令 设置默认查询公会 要查询的公会名称（空格不可省略）\n 例:" + "设置默认查询公会 K.A")
 
 
 # 工会战作业
@@ -118,17 +114,15 @@ async def query_rank(session: CommandSession):
   session.finish(result)
 
 
-# 每天凌晨5点查询当前档位和默认查询公会的信息
-# @sv.scheduled_job('cron', minute='*/30', second='25')
-@sv.on_command('查分', aliases=('2'))
-async def quart_query_task():
+# 查询当前公会排名，分数，所在周目和boss血量
+@sv.on_command('查询当前分数线档位', aliases=('查询档位','cxdw'))
+async def query_rank(session: CommandSession):
   # 查询档位线
   line = query_score_line()
   # 查询默认公会具体信息
-  detail = query_cla_message(dict['defaultClanName'])
+  detail = query_clan_message(dict['defaultClanName'])
   session.finish(line + detail)
 
-  # await sv.broadcast(line + detail)
 
 
 # 将查询指定公会详情的方法抽象
@@ -150,9 +144,9 @@ def query_clan_message(clan_name):
   # 人均分数
   avg_point = round(data[0]['damage'] / 30)
 
-  line = '------公会：【' + query_clan_name + '】 详情 👇------'
+  line = '------公会：【' + clan_name + '】 详情 👇------'
 
-  result = line + "\n" + query_clan_name + "当前排名：" + "【 " + str(
+  result = line + "\n" + clan_name + "当前排名：" + "【 " + str(
       rank) + ' 】，' + '当前分数' + "【" + str(point) + "】，" + "人均分数【" + str(
       avg_point) + "】" + "\n"
 
@@ -189,7 +183,7 @@ def cal_now_boss(nowPoint):
   result = ''
   # 周目从2周目开始算，因为会用当前分数减去1周目的分数（这里不太行，要重新写）
   zm = 1
-  # zm = 2
+  zm2 = 2
   boss = 1
   zm2_expect_damage = nowPoint - zm1_all_boss_point
   zm1_expect_pint = 0
@@ -226,7 +220,6 @@ def cal_now_boss(nowPoint):
         break
     # # 如果当前分数 - 1周目整体分数 > 0 则说明现在是2周目及以后
     else:
-      zm = 2
       if zm2_expect_damage - zm2_boss_point_list[count] > 0:
         zm2_expect_damage = zm2_expect_damage - zm2_boss_point_list[count]
         # 计算下一个boss
@@ -234,7 +227,7 @@ def cal_now_boss(nowPoint):
         boss += 1
         # 下一周目
         if (boss > 5):
-          zm += 1
+          zm2 += 1
           boss = 1
           count = 0
       else:
@@ -251,7 +244,7 @@ def cal_now_boss(nowPoint):
         current_jindu_percent_str = str(current_jindu_percent) + "%"
 
 
-        result = "当前" + str(zm) + "周目" + str(boss) + "王： \n" + "剩余血量：[" + str(
+        result = "当前" + str(zm2) + "周目" + str(boss) + "王： \n" + "剩余血量：[" + str(
           remaining_hp) + "/" + str(
           current_boss_hp) + "], \n" + "剩余血量百分比：" + current_jindu_percent_str
         break

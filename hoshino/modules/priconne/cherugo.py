@@ -88,28 +88,6 @@ async def cherulize(session:CommandSession):
 
 
 
-# @sv.scheduled_job('cron', minute='*/30', second='25')
-async def update_seeker3():
-    line = 'https://service-kjcbcnmw-1254119946.gz.apigw.tencentcs.com/line'
-    lResp = requests.post(line ,headers={'Content-Type':'application/json','Referer':'https://kengxxiao.github.io/Kyouka/'})
-    lineJson =  json.loads(lResp.text)
-    line = '【当前分数线档位👇】：\n'
-    for i in lineJson['data']:
-        line += "公会名:【" + str(i['clan_name'])+"】" +'人均分数：【'+ str(round(i['damage']/30)) +"】" + "当前排名" + "【" + str(i['rank']) + "】" +"," + "当前分数" +"【" + str(i['damage']) + "】" +"\n"
-        line += "-----------------------------------------------------"
-        line += "\n"
-    # 获取鲤鱼王保护协会的参数
-    response = requests.post(url='https://service-kjcbcnmw-1254119946.gz.apigw.tencentcs.com/name/0',data=json.dumps({'clanName':'鲤鱼王保护协会'}),headers={'Content-Type':'application/json','Referer':'https://kengxxiao.github.io/Kyouka/'})
-    jsonResp = json.loads(response.text)
-    data = jsonResp['data']
-    rank = data[0]['rank']
-    avgDamage =  round(data[0]['damage'] / 30)
-    damage = data[0]['damage']
-
-    line += '------【当前我会详情👇】------'
-    resultString = line +"\n" +  "鲤鱼王保护协会当前排名：" + "【 " +str(rank) +' 】，'+ '当前分数' + "【" + str(damage) +"】，" + "人均分数【" +str(avgDamage) + "】"
-    await sv.broadcast(resultString)
-
 
 
 
