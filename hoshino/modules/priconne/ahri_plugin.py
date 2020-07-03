@@ -6,17 +6,16 @@
     1.1 设置默认查询公会：查询功能如果后跟要查询的公会则查询指定公会，若单独输入 查询排名 则查询默认公会，所以第一次使用需要设置默认查询的公会
     1.2
   2. 增加了一个 txt 文件，其中可以存放1500字的公会战作业，动态读取，所以只要更改文件即可。需要查询时输入命令就可以查询当前存放的公会战作业
-
-
-
 """
-
 
 from hoshino import Service, CommandSession
 # request
 import requests
 import json
+# coding:UTF-8
+import time
 
+from hoshino.service import Service
 
 sv = Service('pcr-ahri-plugin')
 
@@ -115,7 +114,7 @@ async def query_rank(session: CommandSession):
 
 
 # 查询当前公会排名，分数，所在周目和boss血量
-@sv.on_command('查询当前分数线档位', aliases=('查询档位','cxdw'))
+@sv.on_command('查询当前分数线档位', aliases=('查询档位', 'cxdw'))
 async def query_rank(session: CommandSession):
   # 查询档位线
   line = query_score_line()
@@ -123,6 +122,16 @@ async def query_rank(session: CommandSession):
   detail = query_clan_message(dict['defaultClanName'])
   session.finish(line + detail)
 
+
+# 每天凌晨5点查询当前档位和默认查询公会的信息
+@sv.scheduled_job('cron', hour='5', minute='10')
+async def quart_query_task():
+  str = '本次为每日凌晨5点10分定时查询：\n'
+  # 查询档位线
+  line = query_score_line()
+  # # 查询默认公会具体信息
+  detail = query_clan_message(dict['defaultClanName'])
+  await sv.broadcast(str + line + detail)
 
 
 # 将查询指定公会详情的方法抽象
@@ -137,6 +146,12 @@ def query_clan_message(clan_name):
   resp = json.loads(response.text)
   # 具体返回数据
   data = resp['data']
+  dt2 = resp['ts']
+  # 转换成localtime
+  time_local = time.localtime(dt2)
+  # 转换成新的时间格式(2016-05-05 20:28:54)
+  dt = time.strftime("%Y-%m-%d %H:%M:%S", time_local)
+
   # 排名数据
   rank = data[0]['rank']
   # 当前分数
@@ -144,7 +159,7 @@ def query_clan_message(clan_name):
   # 人均分数
   avg_point = round(data[0]['damage'] / 30)
 
-  line = '------公会：【' + clan_name + '】 详情 👇------'
+  line = '本次查询对应的时间为：' + dt + '的分数，该分数可能与当前分数存在出入 \n  ------公会：【' + clan_name + '】 详情 👇------'
 
   result = line + "\n" + clan_name + "当前排名：" + "【 " + str(
       rank) + ' 】，' + '当前分数' + "【" + str(point) + "】，" + "人均分数【" + str(
@@ -215,8 +230,8 @@ def cal_now_boss(nowPoint):
         current_jindu_percent_str = str(current_jindu_percent) + "%"
 
         result = "当前" + str(zm) + "周目" + str(boss) + "王： \n" + "剩余血量：[" + str(
-          remaining_hp) + "/" + str(
-          current_boss_hp) + "], \n" + "剩余血量百分比：" + current_jindu_percent_str
+            remaining_hp) + "/" + str(
+            current_boss_hp) + "], \n" + "剩余血量百分比：" + current_jindu_percent_str
         break
     # # 如果当前分数 - 1周目整体分数 > 0 则说明现在是2周目及以后
     else:
@@ -243,10 +258,9 @@ def cal_now_boss(nowPoint):
         # 数字转str
         current_jindu_percent_str = str(current_jindu_percent) + "%"
 
-
         result = "当前" + str(zm2) + "周目" + str(boss) + "王： \n" + "剩余血量：[" + str(
-          remaining_hp) + "/" + str(
-          current_boss_hp) + "], \n" + "剩余血量百分比：" + current_jindu_percent_str
+            remaining_hp) + "/" + str(
+            current_boss_hp) + "], \n" + "剩余血量百分比：" + current_jindu_percent_str
         break
 
   return result
