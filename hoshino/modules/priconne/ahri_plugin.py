@@ -176,10 +176,13 @@ def query_clan_message(clan_name):
 # 查询各个档位分数线的方法
 def query_score_line():
   # 查询当前档位
+
   resp = requests.post(
       url='https://service-kjcbcnmw-1254119946.gz.apigw.tencentcs.com/line',
       headers={'Content-Type': 'application/json',
-               'Referer': 'https://kengxxiao.github.io/Kyouka/'})
+               'Referer': 'https://kengxxiao.github.io/Kyouka/'},
+      data=json.dumps({'history': 0}),
+  )
 
   json_resp = json.loads(resp.text)
   result = '【当前分数线档位👇】：\n'
