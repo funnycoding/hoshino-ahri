@@ -214,7 +214,7 @@ def cal_now_boss(nowPoint):
       # 开始计算分数
       if (nowPoint - zm1_boss_point_list[count] > 0):
         # 减去当前boss后的剩余分数
-        zm1_expect_pint = nowPoint - zm1_boss_point_list[count]
+        nowPoint = nowPoint - zm1_boss_point_list[count]
         # 计算下一个boss
         count += 1
         boss += 1
@@ -222,7 +222,7 @@ def cal_now_boss(nowPoint):
       else:
         current_boss_hp = boss_hp[count]
         # 当前造成的伤害 = 剩余分数 / 当前boss分数系数
-        current_damage = zm1_expect_pint / zm1_boss_point_list[count]
+        current_damage = nowPoint / zm1_boss_point_times[count]
         # 当前boss 剩余血量 = 当前boss血量 - 当前分数/当前boss分数系数
         remaining_hp = round(current_boss_hp - current_damage)
 
